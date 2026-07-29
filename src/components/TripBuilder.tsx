@@ -170,21 +170,26 @@ export default function TripBuilder() {
         {/* Live route summary. On phones it sticks under the nav so the running
             totals stay in view while you tap through the grid below. */}
         <div className="rounded-[28px] max-md:rounded-[20px] border border-toursl-line bg-white p-7 max-md:p-4 mb-8 max-md:mb-5 shadow-[0_18px_60px_-40px_rgba(0,0,0,0.45)] max-md:sticky max-md:top-3 max-md:z-10">
-          <div className="flex items-start justify-between gap-6 mb-6 max-md:mb-4 max-md:gap-3">
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-2 min-h-[40px] max-md:min-h-0">
+          <div className="flex items-start justify-between gap-6 mb-6 max-md:mb-3 max-md:items-center max-md:gap-2">
+            {/* Phones scroll the chips sideways on one line. Wrapping made this
+                card grow taller with every stop and swallow the screen. */}
+            <div className="no-scrollbar flex flex-wrap items-center gap-x-2 gap-y-2 min-h-[40px] max-md:h-8 max-md:min-h-0 max-md:flex-nowrap max-md:gap-y-0 max-md:overflow-x-auto">
               {route.length === 0 && (
-                <span className="font-sans text-[15px] max-md:text-[13px] text-toursl-muted">
-                  No stops yet. Pick one below to start the route.
+                <span className="font-sans text-[15px] max-md:text-[13px] max-md:whitespace-nowrap text-toursl-muted">
+                  No stops yet. Pick one below.
                 </span>
               )}
               {route.map((d, i) => (
-                <span key={d.id} className="flex items-center gap-2 max-md:gap-1">
+                <span
+                  key={d.id}
+                  className="flex flex-shrink-0 items-center gap-2 max-md:gap-1"
+                >
                   {i > 0 && <RouteConnector className="flex-shrink-0" />}
                   <button
                     type="button"
                     onClick={() => toggle(d.id)}
                     title={`Remove ${d.name}`}
-                    className="rounded-full bg-toursl-dark px-4 py-2 max-md:px-3 max-md:py-1.5 font-sans text-sm max-md:text-xs font-medium text-white transition-all duration-300 hover:bg-toursl-accent active:scale-95"
+                    className="whitespace-nowrap rounded-full bg-toursl-dark px-4 py-2 max-md:px-3 max-md:py-1.5 font-sans text-sm max-md:text-xs font-medium text-white transition-all duration-300 hover:bg-toursl-accent active:scale-95"
                   >
                     {d.name}
                   </button>
@@ -197,7 +202,7 @@ export default function TripBuilder() {
                 type="button"
                 onClick={() => setSelected([])}
                 aria-label="Reset route"
-                className="flex flex-shrink-0 items-center gap-2 rounded-full border border-toursl-line bg-transparent px-4 py-2 max-md:h-9 max-md:w-9 max-md:justify-center max-md:p-0 font-sans text-sm font-medium text-toursl-muted transition-colors hover:text-toursl-text active:scale-95"
+                className="flex flex-shrink-0 items-center gap-2 rounded-full border border-toursl-line bg-transparent px-4 py-2 max-md:h-8 max-md:w-8 max-md:justify-center max-md:p-0 font-sans text-sm font-medium text-toursl-muted transition-colors hover:text-toursl-text active:scale-95"
               >
                 <RotateCcw className="h-4 w-4 flex-shrink-0" />
                 <span className="max-md:hidden">Reset</span>

@@ -4,6 +4,7 @@ const LINKS = [
   { label: 'How it works', href: '#how-it-works' },
   { label: "Who it's for", href: '#for-guides' },
   { label: 'Try it', href: '#try-it' },
+  { label: 'What’s next', href: '#ai' },
 ];
 
 export default function Nav() {
@@ -39,7 +40,7 @@ export default function Nav() {
       <div
         ref={containerRef}
         onMouseLeave={() => setHoverIndex(null)}
-        className="absolute left-1/2 -translate-x-1/2 flex gap-3 max-md:hidden"
+        className="absolute left-1/2 -translate-x-1/2 flex gap-3 max-lg:hidden"
       >
         <span
           aria-hidden
@@ -64,7 +65,7 @@ export default function Nav() {
               movePillTo(i);
             }}
             className={[
-              'relative z-[1] inline-flex h-12 w-[190px] items-center justify-center bg-transparent border-none cursor-pointer font-sans text-base font-medium uppercase tracking-[0.04em] rounded-full transition-colors duration-300',
+              'relative z-[1] inline-flex h-12 w-[168px] items-center justify-center bg-transparent border-none cursor-pointer font-sans text-[15px] font-medium uppercase tracking-[0.04em] rounded-full transition-colors duration-300',
               hoverIndex === i ? 'text-white' : 'text-toursl-text',
             ].join(' ')}
           >

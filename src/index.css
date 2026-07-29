@@ -39,6 +39,15 @@ body {
   animation: barFill var(--bar-duration, 5200ms) linear forwards;
 }
 
+/* Horizontal chip strips scroll without showing a bar. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Halo ring behind the hero card, revealed once all frames are decoded. */
 @keyframes haloSpin {
   to {
