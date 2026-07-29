@@ -69,8 +69,7 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      // Accent rule marks where the scroll-scrubbed hero ends.
-      className="w-full border-t-[5px] border-toursl-accent bg-white"
+      className="w-full bg-white"
     >
       {/* Desktop: steps on the left, phone centred against the whole block */}
       <div className="mx-auto max-w-[1360px] px-20 py-24 max-md:hidden">

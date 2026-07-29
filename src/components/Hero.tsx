@@ -88,7 +88,8 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-[560vh] max-md:h-[340vh]"
+      // Accent rule closes the scroll-scrubbed section.
+      className="relative w-full h-[560vh] max-md:h-[340vh] border-b-[5px] border-toursl-accent"
       style={{ background: 'linear-gradient(180deg, #faf8f6 0%, #ffffff 40%)' }}
     >
       <div className="sticky top-0 h-svh overflow-hidden">
@@ -169,7 +170,7 @@ export default function Hero() {
                 {/* Steady sand glow. No hard ring: a 1px white edge read as a
                     harsh border against the artwork. */}
                 <div
-                  className={`absolute inset-0 rounded-[36px] ${
+                  className={`absolute inset-0 rounded-[20px] ${
                     loaded ? 'animate-halo-breathe' : ''
                   }`}
                   style={{
@@ -181,10 +182,10 @@ export default function Hero() {
                 />
 
                 {/* Light travelling around the border itself */}
-                <div className="halo-ring absolute -inset-[2px] rounded-[38px]" />
+                <div className="halo-ring absolute -inset-[2px] rounded-[22px]" />
               </div>
 
-              <div className="relative z-[1] overflow-hidden rounded-[36px] max-md:rounded-[26px] border border-toursl-line bg-white text-left shadow-[0_44px_90px_-30px_rgba(0,0,0,0.62)]">
+              <div className="relative z-[1] overflow-hidden rounded-[20px] max-md:rounded-[16px] border border-toursl-line bg-white text-left shadow-[0_44px_90px_-30px_rgba(0,0,0,0.62)]">
                 <div className="flex items-center justify-between border-b border-toursl-line px-8 py-[1.6vh] max-md:px-4 max-md:py-3">
                   <div>
                     <p className="font-sans text-base max-md:text-sm font-semibold text-toursl-text">
