@@ -88,11 +88,16 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      // Accent rule closes the scroll-scrubbed section.
-      className="relative w-full h-[560vh] max-md:h-[340vh] border-b-[5px] border-toursl-accent"
+      className="relative w-full h-[560vh] max-md:h-[340vh]"
       style={{ background: 'linear-gradient(180deg, #faf8f6 0%, #ffffff 40%)' }}
     >
       <div className="sticky top-0 h-svh overflow-hidden">
+        {/* Accent rule rides the bottom of the pinned stage, so it sits on the
+            screen edge for the whole hero instead of only at the very end. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-[5px] bg-toursl-accent"
+        />
         {/* Artwork sits along the bottom. Its top edge is masked away, so the
             headline above it reads on the pale page. */}
         <div
