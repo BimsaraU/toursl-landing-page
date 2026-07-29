@@ -60,6 +60,11 @@ body {
   animation: haloSpin 18s linear infinite;
 }
 
+/* Bright wedge that travels around the card edge. */
+.animate-halo-orbit {
+  animation: haloSpin 7s linear infinite;
+}
+
 .animate-halo-breathe {
   animation: haloBreathe 5s ease-in-out infinite;
 }
@@ -68,6 +73,7 @@ body {
   .animate-step-in,
   .animate-bar-fill,
   .animate-halo-spin,
+  .animate-halo-orbit,
   .animate-halo-breathe {
     animation: none;
   }

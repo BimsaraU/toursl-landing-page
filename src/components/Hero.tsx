@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import { CalendarDays, Compass, MapPin, Route, Waves } from 'lucide-react';
+import { CalendarDays, MapPin, Route } from 'lucide-react';
 import Nav from '@/components/Nav';
 import RouteConnector from '@/components/RouteConnector';
 import HeroScrollCanvas, { HERO_POSTER } from '@/components/HeroScrollCanvas';
@@ -25,20 +25,6 @@ const ITINERARY = [
     to: 'Ella',
     detail: 'Scenic train · Nine Arch Bridge at sunset',
     icon: CalendarDays,
-  },
-  {
-    day: 'Day 4',
-    from: 'Ella',
-    to: 'Yala',
-    detail: 'Little Adam’s Peak at dawn · 2h 40m drive · 98 km',
-    icon: Compass,
-  },
-  {
-    day: 'Day 5',
-    from: 'Yala',
-    to: 'Mirissa',
-    detail: 'Block 1 safari · Coconut Tree Hill at sunset',
-    icon: Waves,
   },
 ];
 
@@ -99,7 +85,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-[420vh] max-md:h-auto"
+      className="relative w-full h-[560vh] max-md:h-auto"
       style={{ background: 'linear-gradient(180deg, #faf8f6 0%, #ffffff 40%)' }}
     >
       <div className="sticky top-0 h-svh overflow-hidden max-md:static max-md:h-auto max-md:overflow-visible">
@@ -107,7 +93,7 @@ export default function Hero() {
             away, so the headline above it reads on the pale page. */}
         <div
           aria-hidden
-          className="absolute inset-x-0 bottom-0 z-0 h-[76vh] max-md:h-[52vh] bg-[length:100%_auto] bg-bottom bg-no-repeat"
+          className="absolute inset-x-0 bottom-0 z-0 h-[66vh] max-md:h-[46vh] bg-[length:100%_auto] bg-bottom bg-no-repeat"
           style={{
             backgroundImage: HERO_POSTER ? `url(${HERO_POSTER})` : undefined,
             maskImage: HERO_MASK,
@@ -121,7 +107,7 @@ export default function Hero() {
           scrollRef={sectionRef}
           onLoaded={() => setLoaded(true)}
           onProgress={handleProgress}
-          className="absolute inset-x-0 bottom-0 z-0 h-[76vh] w-full max-md:hidden"
+          className="absolute inset-x-0 bottom-0 z-0 h-[66vh] w-full max-md:hidden"
           style={{
             maskImage: HERO_MASK,
             WebkitMaskImage: HERO_MASK,
@@ -138,15 +124,15 @@ export default function Hero() {
             <Nav />
           </div>
 
-          <div className="mx-auto flex w-full max-w-[1360px] flex-1 flex-col items-center justify-center gap-[3.5vh] px-6 pb-[4vh] text-center max-md:gap-8 max-md:pb-16 max-md:pt-8">
+          <div className="mx-auto flex w-full max-w-[1360px] flex-1 flex-col items-center justify-center gap-[2.4vh] px-6 pb-[3vh] text-center max-md:gap-8 max-md:pb-16 max-md:pt-8">
             <div>
               <span className="font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-toursl-accent">
                 Built for Sri Lanka
               </span>
-              <h1 className="mt-4 font-display text-[clamp(38px,5vw,76px)] text-toursl-text leading-[1.12] tracking-[-0.01em] max-w-[1040px]">
+              <h1 className="mt-3 font-display text-[clamp(34px,4.2vw,62px)] text-toursl-text leading-[1.1] tracking-[-0.01em] max-w-[1100px]">
                 Plan every day of your Sri Lanka trip in one place
               </h1>
-              <p className="mx-auto mt-5 font-sans text-lg max-md:text-base font-medium text-toursl-text/70 leading-relaxed max-w-[560px]">
+              <p className="mx-auto mt-4 font-sans text-base font-medium text-toursl-text/70 leading-relaxed max-w-[540px]">
                 Build multi-day itineraries stop by stop, add activities, and
                 get real driving routes between destinations.
               </p>
@@ -168,24 +154,38 @@ export default function Hero() {
               className="relative w-full max-w-[820px]"
               style={hiddenStyle(70)}
             >
-              {/* Deep glow halo, revealed once every frame has decoded. Layered
-                  box-shadows read over busy artwork where a blurred gradient
-                  washed out entirely. */}
+              {/* Halo, revealed once every frame has decoded. Light rather than
+                  brown: the warm artwork behind it swallowed a brown glow. */}
               <div
                 aria-hidden
-                className={`pointer-events-none absolute inset-0 rounded-[36px] transition-opacity duration-1000 ${
-                  loaded ? 'animate-halo-breathe' : ''
-                }`}
-                style={{
-                  opacity: loaded ? 1 : 0,
-                  // Let the fade-in finish before the breathing takes over.
-                  animationDelay: '1000ms',
-                  // Light halo plus a hard drop shadow: the warm artwork behind
-                  // it swallowed a brown glow, white cuts the card out of it.
-                  boxShadow:
-                    '0 0 0 1px rgba(255,255,255,0.95), 0 0 26px 4px rgba(255,255,255,0.8), 0 0 70px 18px rgba(255,255,255,0.55), 0 0 140px 40px rgba(255,244,236,0.4), 0 42px 70px -28px rgba(0,0,0,0.65)',
-                }}
-              />
+                className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-1000"
+                style={{ opacity: loaded ? 1 : 0 }}
+              >
+                {/* Steady sand glow. No hard ring: a 1px white edge read as a
+                    harsh border against the artwork. */}
+                <div
+                  className={`absolute inset-0 rounded-[36px] ${
+                    loaded ? 'animate-halo-breathe' : ''
+                  }`}
+                  style={{
+                    // Let the fade-in finish before the breathing takes over.
+                    animationDelay: '1000ms',
+                    boxShadow:
+                      '0 0 30px 6px rgba(247,244,240,0.5), 0 0 70px 22px rgba(240,231,220,0.42), 0 0 130px 50px rgba(236,225,212,0.3), 0 40px 70px -30px rgba(0,0,0,0.5)',
+                  }}
+                />
+
+                {/* Sand wedge orbiting the card, so the halo travels */}
+                <div className="absolute -inset-10 overflow-hidden rounded-[64px]">
+                  <div
+                    className="absolute inset-[-35%] blur-3xl animate-halo-orbit"
+                    style={{
+                      background:
+                        'conic-gradient(from 0deg, rgba(247,244,240,0) 0deg, rgba(247,244,240,0) 290deg, rgba(247,244,240,0.75) 340deg, rgba(238,228,215,0.55) 357deg, rgba(247,244,240,0) 360deg)',
+                    }}
+                  />
+                </div>
+              </div>
 
               <div className="relative z-[1] overflow-hidden rounded-[36px] border border-toursl-line bg-white text-left shadow-[0_44px_90px_-30px_rgba(0,0,0,0.62)]">
                 <div className="flex items-center justify-between border-b border-toursl-line px-8 py-[1.6vh] max-md:px-5 max-md:py-4">

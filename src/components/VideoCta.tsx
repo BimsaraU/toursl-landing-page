@@ -12,12 +12,7 @@ const VIDEO_MASK =
 
 export default function VideoCta() {
   return (
-    <section
-      className="relative w-full min-h-svh overflow-hidden"
-      style={{
-        background: 'linear-gradient(180deg, #f7f4f0 0%, #ffffff 30%)',
-      }}
-    >
+    <section className="relative w-full min-h-svh overflow-hidden bg-toursl-sand">
       <video
         className="absolute inset-0 h-full w-full object-cover z-0"
         src={VIDEO_SRC}
