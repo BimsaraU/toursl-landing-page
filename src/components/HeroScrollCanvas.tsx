@@ -15,8 +15,10 @@ const FRAMES = urls(
   })
 );
 
-// Half-width, harder-compressed copies. Phones get these so the sequence still
+// Smaller, harder-compressed copies. Phones get these so the sequence still
 // runs there without downloading 5 MB or holding full-size decoded bitmaps.
+// Sized so that after DPR and the cover-crop they are still downscaled, never
+// stretched: a phone canvas is ~780px wide and the crop adds ~25% zoom.
 const FRAMES_MOBILE = urls(
   import.meta.glob('@/assets/hero-frames-mobile/*.jpg', {
     eager: true,
@@ -80,6 +82,7 @@ export default function HeroScrollCanvas({
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    ctx.imageSmoothingQuality = 'high';
 
     let cancelled = false;
     let rafId = 0;
