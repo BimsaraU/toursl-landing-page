@@ -60,9 +60,41 @@ body {
   animation: haloSpin 18s linear infinite;
 }
 
-/* Bright wedge that travels around the card edge. */
-.animate-halo-orbit {
-  animation: haloSpin 7s linear infinite;
+/* Light that travels around the card border only.
+   The ring is drawn as a padded conic gradient with its middle masked out, so
+   there is no clipping box and therefore no hard edge anywhere. */
+@property --halo-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes haloAngle {
+  to {
+    --halo-angle: 360deg;
+  }
+}
+
+.halo-ring {
+  padding: 2px;
+  background: conic-gradient(
+    from var(--halo-angle),
+    rgba(247, 244, 240, 0) 0deg,
+    rgba(247, 244, 240, 0) 215deg,
+    rgba(247, 244, 240, 0.4) 290deg,
+    rgba(255, 252, 246, 0.9) 340deg,
+    rgba(247, 244, 240, 0.3) 352deg,
+    rgba(247, 244, 240, 0) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: haloAngle 7s linear infinite;
 }
 
 .animate-halo-breathe {
@@ -73,7 +105,7 @@ body {
   .animate-step-in,
   .animate-bar-fill,
   .animate-halo-spin,
-  .animate-halo-orbit,
+  .halo-ring,
   .animate-halo-breathe {
     animation: none;
   }

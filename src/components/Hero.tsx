@@ -2,7 +2,10 @@ import { useCallback, useRef, useState } from 'react';
 import { CalendarDays, MapPin, Route } from 'lucide-react';
 import Nav from '@/components/Nav';
 import RouteConnector from '@/components/RouteConnector';
-import HeroScrollCanvas, { HERO_POSTER } from '@/components/HeroScrollCanvas';
+import HeroScrollCanvas, {
+  HERO_POSTER,
+  HERO_POSTER_MOBILE,
+} from '@/components/HeroScrollCanvas';
 
 const ITINERARY = [
   {
@@ -85,20 +88,22 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-[560vh] max-md:h-auto"
+      className="relative w-full h-[560vh] max-md:h-[340vh]"
       style={{ background: 'linear-gradient(180deg, #faf8f6 0%, #ffffff 40%)' }}
     >
-      <div className="sticky top-0 h-svh overflow-hidden max-md:static max-md:h-auto max-md:overflow-visible">
-        {/* Artwork sits along the bottom at full width. Its top edge is masked
-            away, so the headline above it reads on the pale page. */}
+      <div className="sticky top-0 h-svh overflow-hidden">
+        {/* Artwork sits along the bottom. Its top edge is masked away, so the
+            headline above it reads on the pale page. */}
         <div
           aria-hidden
-          className="absolute inset-x-0 bottom-0 z-0 h-[66vh] max-md:h-[46vh] bg-[length:100%_auto] bg-bottom bg-no-repeat"
+          className="absolute inset-x-0 bottom-0 z-0 h-[66vh] max-md:h-[52vh] bg-[length:100%_auto] bg-bottom bg-no-repeat max-md:bg-cover"
           style={{
-            backgroundImage: HERO_POSTER ? `url(${HERO_POSTER})` : undefined,
+            backgroundImage: HERO_POSTER_MOBILE
+              ? `url(${isSmall ? HERO_POSTER_MOBILE : HERO_POSTER})`
+              : undefined,
             maskImage: HERO_MASK,
             WebkitMaskImage: HERO_MASK,
-            opacity: loaded && !isSmall ? 0 : 1,
+            opacity: loaded ? 0 : 1,
             transition: 'opacity 600ms ease',
           }}
         />
@@ -107,7 +112,7 @@ export default function Hero() {
           scrollRef={sectionRef}
           onLoaded={() => setLoaded(true)}
           onProgress={handleProgress}
-          className="absolute inset-x-0 bottom-0 z-0 h-[66vh] w-full max-md:hidden"
+          className="absolute inset-x-0 bottom-0 z-0 h-[66vh] max-md:h-[52vh] w-full"
           style={{
             maskImage: HERO_MASK,
             WebkitMaskImage: HERO_MASK,
@@ -119,20 +124,20 @@ export default function Hero() {
           }}
         />
 
-        <div className="relative z-[2] flex h-full flex-col max-md:h-auto">
+        <div className="relative z-[2] flex h-full flex-col">
           <div className="mx-auto w-full max-w-[1360px]">
             <Nav />
           </div>
 
-          <div className="mx-auto flex w-full max-w-[1360px] flex-1 flex-col items-center justify-center gap-[2.4vh] px-6 pb-[3vh] text-center max-md:gap-8 max-md:pb-16 max-md:pt-8">
+          <div className="mx-auto flex w-full max-w-[1360px] flex-1 flex-col items-center justify-center gap-[2.4vh] px-6 pb-[3vh] text-center max-md:gap-[2vh] max-md:px-4 max-md:pb-[2vh]">
             <div>
-              <span className="font-sans text-[13px] font-medium uppercase tracking-[0.1em] text-toursl-accent">
+              <span className="font-sans text-[13px] max-md:text-[11px] font-medium uppercase tracking-[0.1em] text-toursl-accent">
                 Built for Sri Lanka
               </span>
-              <h1 className="mt-3 font-display text-[clamp(34px,4.2vw,62px)] text-toursl-text leading-[1.1] tracking-[-0.01em] max-w-[1100px]">
+              <h1 className="mt-3 max-md:mt-2 font-display text-[clamp(34px,4.2vw,62px)] max-md:text-[26px] text-toursl-text leading-[1.1] tracking-[-0.01em] max-w-[1100px]">
                 Plan every day of your Sri Lanka trip in one place
               </h1>
-              <p className="mx-auto mt-4 font-sans text-base font-medium text-toursl-text/70 leading-relaxed max-w-[540px]">
+              <p className="mx-auto mt-4 max-md:mt-3 font-sans text-base max-md:text-[13px] font-medium text-toursl-text/70 leading-relaxed max-w-[540px] max-md:max-w-[320px]">
                 Build multi-day itineraries stop by stop, add activities, and
                 get real driving routes between destinations.
               </p>
@@ -142,7 +147,7 @@ export default function Hero() {
             <div ref={ctaRef} style={hiddenStyle(34)}>
               <button
                 type="button"
-                className="inline-flex h-14 w-[210px] items-center justify-center bg-toursl-dark text-[#fafafa] border border-toursl-dark cursor-pointer font-sans text-[15px] font-medium uppercase tracking-[0.04em] rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[#333] hover:scale-[1.03] active:scale-95"
+                className="inline-flex h-14 w-[210px] max-md:h-12 max-md:w-[180px] items-center justify-center bg-toursl-dark text-[#fafafa] border border-toursl-dark cursor-pointer font-sans text-[15px] max-md:text-[13px] font-medium uppercase tracking-[0.04em] rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[#333] hover:scale-[1.03] active:scale-95"
               >
                 Plan My Trip
               </button>
@@ -175,29 +180,21 @@ export default function Hero() {
                   }}
                 />
 
-                {/* Sand wedge orbiting the card, so the halo travels */}
-                <div className="absolute -inset-10 overflow-hidden rounded-[64px]">
-                  <div
-                    className="absolute inset-[-35%] blur-3xl animate-halo-orbit"
-                    style={{
-                      background:
-                        'conic-gradient(from 0deg, rgba(247,244,240,0) 0deg, rgba(247,244,240,0) 290deg, rgba(247,244,240,0.75) 340deg, rgba(238,228,215,0.55) 357deg, rgba(247,244,240,0) 360deg)',
-                    }}
-                  />
-                </div>
+                {/* Light travelling around the border itself */}
+                <div className="halo-ring absolute -inset-[2px] rounded-[38px]" />
               </div>
 
-              <div className="relative z-[1] overflow-hidden rounded-[36px] border border-toursl-line bg-white text-left shadow-[0_44px_90px_-30px_rgba(0,0,0,0.62)]">
-                <div className="flex items-center justify-between border-b border-toursl-line px-8 py-[1.6vh] max-md:px-5 max-md:py-4">
+              <div className="relative z-[1] overflow-hidden rounded-[36px] max-md:rounded-[26px] border border-toursl-line bg-white text-left shadow-[0_44px_90px_-30px_rgba(0,0,0,0.62)]">
+                <div className="flex items-center justify-between border-b border-toursl-line px-8 py-[1.6vh] max-md:px-4 max-md:py-3">
                   <div>
-                    <p className="font-sans text-base font-semibold text-toursl-text">
+                    <p className="font-sans text-base max-md:text-sm font-semibold text-toursl-text">
                       Southern Highlands Loop
                     </p>
-                    <p className="font-sans text-sm text-toursl-muted">
+                    <p className="font-sans text-sm max-md:text-xs text-toursl-muted">
                       7 days · 12 stops · 486 km
                     </p>
                   </div>
-                  <span className="border-b border-toursl-accent/40 pb-0.5 font-display text-[14px] leading-none text-toursl-accent">
+                  <span className="border-b border-toursl-accent/40 pb-0.5 font-display text-[14px] max-md:text-[12px] leading-none text-toursl-accent">
                     Draft
                   </span>
                 </div>
@@ -206,25 +203,25 @@ export default function Hero() {
                   {ITINERARY.map(({ day, from, to, detail, icon: Icon }) => (
                     <li
                       key={day}
-                      className="flex items-start gap-4 px-8 py-[1.25vh] max-md:px-5 max-md:py-3.5 transition-colors hover:bg-toursl-sand/50"
+                      className="flex items-start gap-4 max-md:gap-3 px-8 py-[1.25vh] max-md:px-4 max-md:py-2.5 transition-colors hover:bg-toursl-sand/50"
                     >
-                      <span className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-toursl-sand">
-                        <Icon className="h-[18px] w-[18px] text-toursl-accent" />
+                      <span className="mt-0.5 flex h-9 w-9 max-md:h-7 max-md:w-7 flex-shrink-0 items-center justify-center rounded-full bg-toursl-sand">
+                        <Icon className="h-[18px] w-[18px] max-md:h-[14px] max-md:w-[14px] text-toursl-accent" />
                       </span>
                       <div>
-                        <p className="font-sans text-xs font-medium uppercase tracking-[0.08em] text-toursl-muted">
+                        <p className="font-sans text-xs max-md:text-[10px] font-medium uppercase tracking-[0.08em] text-toursl-muted">
                           {day}
                         </p>
-                        <p className="flex items-center font-sans text-lg max-md:text-base font-medium text-toursl-text leading-snug">
+                        <p className="flex items-center font-sans text-lg max-md:text-[15px] font-medium text-toursl-text leading-snug">
                           {from}
                           {to && (
                             <>
-                              <RouteConnector className="mx-2" />
+                              <RouteConnector className="mx-2 max-md:mx-1.5" />
                               {to}
                             </>
                           )}
                         </p>
-                        <p className="font-sans text-[15px] max-md:text-sm text-toursl-muted">
+                        <p className="font-sans text-[15px] max-md:text-[12px] text-toursl-muted leading-snug">
                           {detail}
                         </p>
                       </div>

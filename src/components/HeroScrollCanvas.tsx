@@ -1,17 +1,32 @@
 import { useEffect, useRef } from 'react';
 
-// Vite resolves the glob at build time, so each frame is hashed and emitted.
-const FRAMES = Object.entries(
+// Vite resolves the globs at build time, so each frame is hashed and emitted.
+function urls(mod: Record<string, unknown>) {
+  return Object.entries(mod)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([, url]) => url as string);
+}
+
+const FRAMES = urls(
   import.meta.glob('@/assets/hero-frames/*.jpg', {
     eager: true,
     query: '?url',
     import: 'default',
-  }) as Record<string, string>
-)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([, url]) => url);
+  })
+);
+
+// Half-width, harder-compressed copies. Phones get these so the sequence still
+// runs there without downloading 5 MB or holding full-size decoded bitmaps.
+const FRAMES_MOBILE = urls(
+  import.meta.glob('@/assets/hero-frames-mobile/*.jpg', {
+    eager: true,
+    query: '?url',
+    import: 'default',
+  })
+);
 
 export const HERO_POSTER = FRAMES[0];
+export const HERO_POSTER_MOBILE = FRAMES_MOBILE[0];
 
 type Props = {
   /** Scrolled element that drives playback. */
@@ -55,11 +70,13 @@ export default function HeroScrollCanvas({
     ).matches;
     const small = window.matchMedia('(max-width: 760px)').matches;
 
-    if (reduced || small) {
+    if (reduced) {
       loadedRef.current?.();
       progressRef.current?.(0);
       return;
     }
+
+    const sources = small && FRAMES_MOBILE.length > 0 ? FRAMES_MOBILE : FRAMES;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -71,11 +88,25 @@ export default function HeroScrollCanvas({
 
     function draw(img: HTMLImageElement) {
       if (!canvas || !ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (small) {
+        // Phones: fill the band and crop the sides. Full frame width on a narrow
+        // screen leaves a strip too short to read as artwork.
+        const scale = Math.max(
+          canvas.width / img.naturalWidth,
+          canvas.height / img.naturalHeight
+        );
+        const w = img.naturalWidth * scale;
+        const h = img.naturalHeight * scale;
+        ctx.drawImage(img, (canvas.width - w) / 2, canvas.height - h, w, h);
+        return;
+      }
+
       // Full frame width, bottom-anchored: nothing is cropped horizontally, and
       // any excess height runs off the top where the mask has already faded it.
       const scale = canvas.width / img.naturalWidth;
       const h = img.naturalHeight * scale;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, canvas.height - h, canvas.width, h);
     }
 
@@ -113,7 +144,7 @@ export default function HeroScrollCanvas({
 
     async function load() {
       const loaded = await Promise.all(
-        FRAMES.map(
+        sources.map(
           (src) =>
             new Promise<HTMLImageElement | null>((resolve) => {
               const img = new Image();
