@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Geist', sans-serif;
+  overflow-x: hidden;
+  background: #fff;
+}
+
+/* Phone mock: screen contents rise into place, staggered per row. */
+@keyframes stepIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-step-in {
+  animation: stepIn 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Progress bar on the active step, timed to the auto-advance interval. */
+@keyframes barFill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-bar-fill {
+  transform-origin: left;
+  animation: barFill var(--bar-duration, 5200ms) linear forwards;
+}
+
+/* Halo ring behind the hero card, revealed once all frames are decoded. */
+@keyframes haloSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes haloBreathe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-halo-spin {
+  animation: haloSpin 18s linear infinite;
+}
+
+.animate-halo-breathe {
+  animation: haloBreathe 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-step-in,
+  .animate-bar-fill,
+  .animate-halo-spin,
+  .animate-halo-breathe {
+    animation: none;
+  }
+}

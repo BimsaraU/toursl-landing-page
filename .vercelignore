@@ -1,0 +1,10 @@
+# Keep the upload small when deploying with the Vercel CLI.
+node_modules
+dist
+.git
+
+# Raw frame source material, not imported by the app (~403 MB).
+src/backgrounds
+
+*.tsbuildinfo
+*.log
