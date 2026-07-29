@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import { CalendarDays, MapPin, Route } from 'lucide-react';
+import { MapPin, Route } from 'lucide-react';
 import Nav from '@/components/Nav';
 import RouteConnector from '@/components/RouteConnector';
 import HeroScrollCanvas, {
@@ -7,27 +7,26 @@ import HeroScrollCanvas, {
   HERO_POSTER_MOBILE,
 } from '@/components/HeroScrollCanvas';
 
+// The icon follows the kind of day: a transfer between towns, or a day spent in
+// one place. Same activity, same icon.
 const ITINERARY = [
   {
     day: 'Day 1',
     from: 'Colombo',
     to: 'Kandy',
     detail: 'Temple of the Tooth · 3h 10m drive · 116 km',
-    icon: Route,
   },
   {
     day: 'Day 2',
     from: 'Kandy',
     to: null,
     detail: 'Royal Botanical Gardens · Tea factory tour',
-    icon: MapPin,
   },
   {
     day: 'Day 3',
     from: 'Kandy',
     to: 'Ella',
     detail: 'Scenic train · Nine Arch Bridge at sunset',
-    icon: CalendarDays,
   },
 ];
 
@@ -206,12 +205,17 @@ export default function Hero() {
                 </div>
 
                 <ul className="divide-y divide-toursl-line">
-                  {ITINERARY.map(({ day, from, to, detail, icon: Icon }) => (
+                  {ITINERARY.map(({ day, from, to, detail }) => {
+                    const Icon = to ? Route : MapPin;
+                    return (
                     <li
                       key={day}
                       className="flex items-start gap-4 max-md:gap-3 px-8 py-[1.25vh] max-md:px-4 max-md:py-2.5 transition-colors hover:bg-toursl-sand/50"
                     >
-                      <span className="mt-0.5 flex h-9 w-9 max-md:h-7 max-md:w-7 flex-shrink-0 items-center justify-center rounded-full bg-toursl-sand">
+                      <span
+                        className="mt-0.5 flex h-9 w-9 max-md:h-7 max-md:w-7 flex-shrink-0 items-center justify-center rounded-full bg-toursl-sand"
+                        title={to ? 'Transfer day' : 'Day in one place'}
+                      >
                         <Icon className="h-[18px] w-[18px] max-md:h-[14px] max-md:w-[14px] text-toursl-accent" />
                       </span>
                       <div>
@@ -232,7 +236,8 @@ export default function Hero() {
                         </p>
                       </div>
                     </li>
-                  ))}
+                    );
+                  })}
                 </ul>
               </div>
             </div>

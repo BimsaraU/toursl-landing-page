@@ -51,8 +51,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 border-t border-white/15 pt-6">
-          <p className="font-sans text-sm text-white/50">
+        <div className="mt-14 max-md:mt-10 border-t border-white/15 pt-6">
+          <p className="font-sans text-sm text-white/50 max-md:text-center">
             © {new Date().getFullYear()} TourSL. Made for travellers and guides
             in Sri Lanka.
           </p>

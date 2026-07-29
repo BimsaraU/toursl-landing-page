@@ -4,7 +4,7 @@ const LINKS = [
   { label: 'How it works', href: '#how-it-works' },
   { label: "Who it's for", href: '#for-guides' },
   { label: 'Try it', href: '#try-it' },
-  { label: 'What’s next', href: '#ai' },
+  { label: 'AI engines', href: '#ai' },
 ];
 
 export default function Nav() {

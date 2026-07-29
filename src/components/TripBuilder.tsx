@@ -291,7 +291,9 @@ export default function TripBuilder() {
           })}
         </div>
 
-        <div className="mt-10 max-md:mt-6 flex flex-wrap items-center gap-4 max-md:gap-3">
+        {/* Caption sits under the button at every width, so it never reflows
+            beside it when the label changes length. */}
+        <div className="mt-10 max-md:mt-6 flex flex-col items-start gap-3 max-md:items-center">
           <button
             type="button"
             onClick={() => setShowPlan((v) => !v)}
@@ -301,14 +303,14 @@ export default function TripBuilder() {
             <Check className="h-[18px] w-[18px] flex-shrink-0" />
             {showPlan ? 'Hide the plan' : 'Generate the day-by-day plan'}
           </button>
-          <span className="font-sans text-sm max-md:text-xs text-toursl-muted">
+          <span className="font-sans text-sm max-md:text-xs text-toursl-muted max-md:text-center">
             Distances are estimates. The real planner uses live route data.
           </span>
         </div>
 
         {/* Next stage: the route turned into an actual schedule */}
         {showPlan && route.length > 0 && (
-          <div className="mt-8 max-md:mt-5 rounded-[28px] max-md:rounded-[20px] border border-toursl-line bg-white p-8 max-md:p-4 shadow-[0_18px_60px_-40px_rgba(0,0,0,0.45)]">
+          <div className="animate-panel-in mt-8 max-md:mt-5 rounded-[28px] max-md:rounded-[20px] border border-toursl-line bg-white p-8 max-md:p-4 shadow-[0_18px_60px_-40px_rgba(0,0,0,0.45)]">
             <div className="mb-7 max-md:mb-5 flex items-start justify-between gap-6 border-b border-toursl-line pb-6 max-md:pb-4 max-md:gap-3">
               <div>
                 <p className="font-display text-[26px] max-md:text-[18px] leading-none text-toursl-text mb-2">
@@ -328,8 +330,12 @@ export default function TripBuilder() {
             </div>
 
             <ol className="flex flex-col">
-              {plan.map((entry) => (
-                <li key={entry.key} className="flex gap-6 max-md:gap-3">
+              {plan.map((entry, i) => (
+                <li
+                  key={entry.key}
+                  className="animate-step-in flex gap-6 max-md:gap-3"
+                  style={{ animationDelay: `${140 + i * 70}ms` }}
+                >
                   <div className="flex flex-col items-center">
                     <span className="font-display text-[22px] max-md:text-[17px] leading-none text-toursl-accent pt-1">
                       {entry.day}
@@ -377,7 +383,7 @@ export default function TripBuilder() {
               >
                 Find guides for it
               </button>
-              <span className="font-sans text-sm max-md:text-xs text-toursl-muted">
+              <span className="font-sans text-sm max-md:text-xs text-toursl-muted max-md:w-full max-md:text-center">
                 Sample output. The planner fills these days from real place data.
               </span>
             </div>
